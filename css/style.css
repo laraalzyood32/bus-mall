@@ -1,0 +1,16 @@
+body {
+    background-color: rgb(27, 179, 179);
+    text-align: center;
+    display: block;
+  }
+ 
+  img { height: 250px;
+  width:250px;
+  object-fit:contain;
+  border: 10px;
+  border-color: yellow; 
+  }
+  p{
+    color: rgb(173, 199, 24);
+    font-size: 30px;
+  }
