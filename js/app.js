@@ -96,6 +96,52 @@ function displayResults() {
   for (let j = 0; j < Products.length; j++) {
     votes.push(Products[j].votes);
   }
+  function renderChart() {
+    let canvas = document.createElement('canvas');
+   let button = document.createElement('a');
+    button.textContent = 'Chart';
+    let ctx = canvas.getContext('2d');
+    let votes = [];
+    let names = [];
+    for(let i = 0; i < products.length; i++) {
+      votes[i] = products[i].clicks;
+      names[i] = products[i].name;
+    }
+  
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: names,
+        datasets: [{
+          data: votes,
+          label: 'Votes',
+          borderWidth: 5
+        }]
+      },
+      options: {
+        responsive: true,
+        title: {
+          display: true,
+          text: 'Votes Per Product',
+          fontSize: 50
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true,
+              stepSize: 1
+            }
+          }]
+        }
+      }
+    });
+  
+
+    let canvas = document.getElementById('chart');
+    let ctx = canvas.getContext('2d');
+    renderChart();
+     
+    } 
   leftphoto.addEventListener('click', handleImageClick);
   centerphoto.addEventListener('click', handleImageClick);
   rightphoto.addEventListener('click', handleImageClick);
