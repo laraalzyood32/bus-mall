@@ -1,60 +1,105 @@
 'use strict';
-let app=document.getElementById("app");
-const centerphoto=document.getElementById('centerphoto');
-const leftphoto=document.getElementById('leftphoto');
-const rightphoto=document.getElementById('rightphoto');
+
+let app = document.getElementById('app');
+let centerphoto=document.getElementById('centerphoto');
+let leftphoto=document.getElementById('leftphoto');
+let rightphoto=document.getElementById('rightphoto');
 let  clickcounter=25;
-let centerphoto=[];
-let leftphoto=[];
-let rightphoto=[];
-let  products=[Babyswing,Facewash,glasswiper,gum,smiling-goat,emotional-goat,kissing-goat];
+  centerphoto=[];
+  leftphoto=[];
+  rightphoto=[];
+let finalimage=[];
+let  products=[];
 
 function photo(name,path){
     this.name=name;
-    this.src=filepath;
+    this.path=`./assets/${name}.jpg`;;
     this.views=0;
   this.votes=0;
     this.clickcounter=0;
-    photo.all.push(this)
+   
+    let  first = Math.floor(Math.random() * 255);
+    let second = Math.floor(Math.random() * 255);
+    let third = Math.floor(Math.random() * 255);
+  
+    products.push(this);
+
 
 };
+let Babyswing=new photo('Babyswing','img/babyswing.jpg');
+let Facewash = new photo('Facewash','img/Facewash.jpg');
+let glasswiper = new photo('glasswiper','img/glasswiper.jpg');
+let gum= new photo('gum','img/gum.jpg');
+let ajax=new photo('ajax','img/ajax.jpg');
+let hoover=new photo('hoover','img/hoover.jpg');
+let towel=new photo('towel','img/towel.jpg');
+let picnicchair=new photo('picnicchair','img/picnicchair.jpg');
+let chair2=new photo('chair2','img/chair2.jpg');
+let sunblock=new photo('sunblock','img/sunblock.jpg');
+let sunglasses=new photo('sunglasses','img/sunglasses.jpg');
+let campingtent=new photo('campingtent','img/campingtent.jpg');
+let bag=new photo('bag','img/bag.jpg');
 
+function chooserandomly() {
+  let firstRandom = Math.floor(Math.random() * Products.length);
+  let secondRandom = Math.floor(Math.random() * Products.length);
+  let  thirdRandom = Math.floor(Math.random() * Products.length);
+  while (firstRandom === secondRandom || firstRandom === thirdRandom || secondRandom === thirdRandom || finalimage.includes(firstRandom) ||finalimage.includes(secondRandom) || finalimage.includes(thirdRandom)) {
+    firstRandom = Math.floor(Math.random() * Products.length);
+    secondRandom = Math.floor(Math.random() * Products.length);
+    thirdRandom = Math.floor(Math.random() * Products.length);
+  }
 
-function render(){
-    const leftphoto=random(0,photo.all.length-1);
-    const leftphoto=photo.all[leftphoto];
-    leftphoto.src=leftphoto.path;
-    leftphoto.title=leftphoto.name;
+  
+  leftphoto[0] = firstRandom;
+  centerphoto[1] = secondRandom;
+  rightphoto[2] = thirdRandom;
+
+  leftphoto.src = Products[firstRandom].Path;
+  centerphoto.src = Products[secondRandom].Path;
+  rightphoto.src = Products[thirdRandom].Path;
+  
+  leftphoto.alt = Products[firstRandom].name;
+ centerphoto.alt = Products[secondRandom].name;
+  rightphoto.alt = Products[thirdRandom].name;
+
+  
+  Products[firstRandom].views++;
+  Products[secondRandom].views++;
+  Products[thirdRandom].views++;
+  totalclicks++;
+  if (totalClicks === 25) {
+    leftphoto.removeEventListener('click', handleImageClick);
+    centerphoto.removeEventListener('click', handleImageClick);
+    rightphoto.removeEventListener('click', handleImageClick);
+    displayResults(); 
     
-  
-    const rightphoto=random(0,photo.all.length-1);
-    const rightphoto=Goat.all[rightphoto];
-    rightphoto.src=rightphoto.path;
-    rightphoto.title=rightphoto.name;
+  }
+
 }
-centerphoto.addEventListener('click',clickHandler);
-
-function clickHandler(event){
-  if (event.target.id === 'leftphoto' || event.target.id === 'rightphoto'||event.target.id === 'centerphoto'){
-    for(let i=0;i<Goat.all.length;i++){
-      if (photo.all[i].name === event.target.title){
-        photo.all[i].votes++;
-        console.table(photo.all[i])
-      }
+function handleImageClick(event) {
+  
+  for (let i = 0; i < Products.length; i++) {
+    if (event.target.alt === Products[i].name) {
+      Products[i].votes++;
     }
-    render();
   }
-  
-  function chooserandomly(products){
-      return Math.floor(Math.random() * products.length);
-    };
-  let Babyswing=new photo('Babyswing','img/babyswing.jpg');
-  let Facewash = new photo('Facewash','img/Facewash.jpg');
-  let glasswiper = new photo('glasswiper','img/glasswiper.jpg');
-  let gum= new photo('gum','img/gum.jpg');
-  
-  for(let i=0;i<products.length;i++){
-      new photo(products[i]);
+  chooserandomly();
+}
+function displayResults() {
+  let namephoto = [];
+  for (let i = 0; i < Products.length; i++) {
+    namephoto.push(Products[i].name);
   }
-  
 
+  let votes = [];
+  for (let j = 0; j < Products.length; j++) {
+    votes.push(Products[j].votes);
+  }
+  leftphoto.addEventListener('click', handleImageClick);
+  centerphoto.addEventListener('click', handleImageClick);
+  rightphoto.addEventListener('click', handleImageClick);
+  
+}
+displayResults() ;
+  
