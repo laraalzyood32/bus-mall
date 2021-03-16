@@ -1,151 +1,172 @@
+
+  
+  
 'use strict';
+photo.allProducts = [];
+photo.totalClicks = 0;
+photo.lastDisplayed = [];
+let  productarea = document.getElementById('productarea');
+let  finalresults = document.getElementById('finalresults');
+let  productDisplayed = [];
+let  productNames = [];
+let  productVotes = [];
+let  userName;
 
-let app = document.getElementById('app');
-let centerphoto=document.getElementById('centerphoto');
-let leftphoto=document.getElementById('leftphoto');
-let rightphoto=document.getElementById('rightphoto');
-let  clickcounter=25;
-  centerphoto=[];
-  leftphoto=[];
-  rightphoto=[];
-let finalimage=[];
-let  products=[];
-
-function photo(name,path){
-    this.name=name;
-    this.path=`./assets/${name}.jpg`;;
-    this.views=0;
-  this.votes=0;
-    this.clickcounter=0;
-   
-    let  first = Math.floor(Math.random() * 255);
-    let second = Math.floor(Math.random() * 255);
-    let third = Math.floor(Math.random() * 255);
-  
-    products.push(this);
-
-
-};
-let Babyswing=new photo('Babyswing','img/babyswing.jpg');
-let Facewash = new photo('Facewash','img/Facewash.jpg');
-let glasswiper = new photo('glasswiper','img/glasswiper.jpg');
-let gum= new photo('gum','img/gum.jpg');
-let ajax=new photo('ajax','img/ajax.jpg');
-let hoover=new photo('hoover','img/hoover.jpg');
-let towel=new photo('towel','img/towel.jpg');
-let picnicchair=new photo('picnicchair','img/picnicchair.jpg');
-let chair2=new photo('chair2','img/chair2.jpg');
-let sunblock=new photo('sunblock','img/sunblock.jpg');
-let sunglasses=new photo('sunglasses','img/sunglasses.jpg');
-let campingtent=new photo('campingtent','img/campingtent.jpg');
-let bag=new photo('bag','img/bag.jpg');
-
-function chooserandomly() {
-  let firstRandom = Math.floor(Math.random() * Products.length);
-  let secondRandom = Math.floor(Math.random() * Products.length);
-  let  thirdRandom = Math.floor(Math.random() * Products.length);
-  while (firstRandom === secondRandom || firstRandom === thirdRandom || secondRandom === thirdRandom || finalimage.includes(firstRandom) ||finalimage.includes(secondRandom) || finalimage.includes(thirdRandom)) {
-    firstRandom = Math.floor(Math.random() * Products.length);
-    secondRandom = Math.floor(Math.random() * Products.length);
-    thirdRandom = Math.floor(Math.random() * Products.length);
+function getUserName() {
+  if(localStorage.userName) {
+    alert('Welcome back ' + localStorage.userName + '!');
+    userName = localStorage.userName;
+  } else {
+    userName = prompt('Thank you for participating in our page! Please enter your name');
+    console.log(userName);
+    alert('Thanks ' + userName + ' for participating. Please click on your favorite image out of the selection.');
   }
+}
 
-  
-  leftphoto[0] = firstRandom;
-  centerphoto[1] = secondRandom;
-  rightphoto[2] = thirdRandom;
 
-  leftphoto.src = Products[firstRandom].Path;
-  centerphoto.src = Products[secondRandom].Path;
-  rightphoto.src = Products[thirdRandom].Path;
-  
-  leftphoto.alt = Products[firstRandom].name;
- centerphoto.alt = Products[secondRandom].name;
-  rightphoto.alt = Products[thirdRandom].name;
+function photo(path, name) {
+  this.name = name;
+  this.path = path;
+  this.votes = 0;
+  this.times = 0;
+  photo.allProducts.push(this);
+  productNames.push(this.name);
+  productDisplayed.push(this.times);
+}
 
-  
-  Products[firstRandom].views++;
-  Products[secondRandom].views++;
-  Products[thirdRandom].views++;
-  totalclicks++;
-  if (totalClicks === 25) {
-    leftphoto.removeEventListener('click', handleImageClick);
-    centerphoto.removeEventListener('click', handleImageClick);
-    rightphoto.removeEventListener('click', handleImageClick);
-    displayResults(); 
+new photo('img/bag.jpg', 'bag');
+new photo('img/chair2.jpg', 'chair2');
+new photo('img/babyswing.jpg', 'babyswing');
+new photo('img/gum.jpg', 'gum');
+new photo('img/facewash.jpg', 'facewash');
+new photo('img/campingtent.jpg', 'campingtent');
+new photo('img/picnicchair.jpg', 'picnicchair');
+new photo('img/sunglasses.jpg', 'sunglasses');
+new photo('img/sunblock.jpg', 'sunblock');
+new photo('img/ajax.jpg', 'ajax');
+new photo('img/carwithremote.jpg', 'carwithremote');
+new photo('img/glasswiper.jpg', 'glasswiper');
+new photo('img/gumgum.jpg', 'gumgum');
+new photo('img/hoover.jpg', 'hoover');
+
+let  leftimage = document.getElementById('leftimage');
+let  centerimage = document.getElementById('centerimage');
+let  rightimage= document.getElementById('rightimage');
+
+function randomImage() {
+  let randomLeft = Math.floor(Math.random() * photo.allProducts.length);
+  let randomCenter = Math.floor(Math.random() * photo.allProducts.length);
+  let randomRight = Math.floor(Math.random() * photo.allProducts.length);
+
+  while(randomLeft === randomRight || randomCenter === randomRight || randomCenter === randomLeft ) {
+
     
+    randomLeft = Math.floor(Math.random() * photo.allProducts.length);
+    randomCenter = Math.floor(Math.random() * photo.allProducts.length);
+    randomRight = Math.floor(Math.random() * photo.allProducts.length);
   }
 
+
+  leftimage.src = photo.allProducts[randomLeft].path;
+  leftimage.alt = photo.allProducts[randomLeft].name;
+  centerimage.src = photo.allProducts[randomCenter].path;
+  centerimage.alt = photo.allProducts[randomCenter].name;
+  rightimage.src = photo.allProducts[randomRight].path;
+  rightimage.alt = photo.allProducts[randomRight].name;
+
+  photo.allProducts[randomLeft].times += 1;
+  photo.allProducts[randomCenter].times += 1;
+  photo.allProducts[randomRight].times += 1;
+
+  photo.lastDisplayed[0] = randomLeft;
+  photo.lastDisplayed[1] = randomCenter;
+  photo.lastDisplayed[2] = randomRight;
 }
-function handleImageClick(event) {
-  
-  for (let i = 0; i < Products.length; i++) {
-    if (event.target.alt === Products[i].name) {
-      Products[i].votes++;
+
+function controlClick(event) {
+  photo.totalClicks++;
+  for(let i in photo.allProducts) {
+    if(event.target.alt === photo.allProducts[i].name) {
+      photo.allProducts[i].votes++;
     }
-  }
-  chooserandomly();
-}
-function displayResults() {
-  let namephoto = [];
-  for (let i = 0; i < Products.length; i++) {
-    namephoto.push(Products[i].name);
   }
 
-  let votes = [];
-  for (let j = 0; j < Products.length; j++) {
-    votes.push(Products[j].votes);
+  if(photo.totalClicks > 24) {
+    productarea.removeEventListener('click', controlClick);
+    alert('Thanks for participating! Here are the results of your selections.');
+    showResults();
+renderChart();
+
+    
+  } else {
+    randomImage();
   }
-  function renderChart() {
-    let canvas = document.createElement('canvas');
-   let button = document.createElement('a');
-    button.textContent = 'Chart';
-    let ctx = canvas.getContext('2d');
-    let votes = [];
-    let names = [];
-    for(let i = 0; i < products.length; i++) {
-      votes[i] = products[i].clicks;
-      names[i] = products[i].name;
-    }
-  
-    new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: names,
+}
+
+function showResults() {
+  for(let i in photo.allProducts) {
+     finalresults = document.createElement('finalresults');
+  }
+}
+
+function updateVotes() {
+  for(let  i in photo.allProducts) {
+    productVotes[i] = photo.allProducts[i].votes;
+    productDisplayed[i] = photo.allProducts[i].times;
+  }
+}
+function saveLocally() {
+  if (localStorage.total) {
+    localStorage.setItem('votes', JSON.parse(photo.totalClicks));
+
+    localStorage.userName = userName;
+    let  parseVotes = JSON.parse(localStorage.votes);
+    let parseTotal = JSON.parse(localStorage.total);
+
+    parseTotal = parseTotal + parseVotes;
+
+    localStorage.setItem('total', JSON.parse(parseTotal));
+
+  } else {
+    localStorage.setItem('total', JSON.stringify(photo.totalClicks));
+  }
+}
+function createChart(){
+  let context = document.getElementById('myChart').getContext('2d');
+  let getGoatsNames=[];
+  let getGoatsVotes=[];
+
+  for(let i=0;i<Goat.all.length;i++){
+    getGoatsNames.push(Goat.all[i].name);
+  }
+  for(let i=0;i<Goat.all.length;i++){
+    getGoatsVotes.push(Goat.all[i].votes);
+  }
+  let chartObject={
+    
+    type: 'bar',
+    
+    data: {
+        labels:'Votes',
         datasets: [{
-          data: votes,
-          label: 'Votes',
-          borderWidth: 5
-        }]
-      },
-      options: {
-        responsive: true,
-        title: {
-          display: true,
-          text: 'Votes Per Product',
-          fontSize: 50
-        },
-        scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: true,
-              stepSize: 1
-            }
-          }]
+            label: ' times',
+            backgroundColor: 'rgb(100, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: photovotes ,
         }
-      }
-    });
-  
-
-    let canvas = document.getElementById('chart');
-    let ctx = canvas.getContext('2d');
-    renderChart();
-     
-    } 
-  leftphoto.addEventListener('click', handleImageClick);
-  centerphoto.addEventListener('click', handleImageClick);
-  rightphoto.addEventListener('click', handleImageClick);
+      ]
+    },
+    options: {
+      scales: {
+        xAxes: [{
+            barPercentage: 0.4
+        }]
+    }
+    }
+}
+  let chart = new Chart(context,chartObject);
   
 }
-displayResults() ;
-  
+getUserName();
+finalresults.addEventListener('click',controlClick);
+randomImage();
