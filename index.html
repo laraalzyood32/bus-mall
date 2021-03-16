@@ -1,33 +1,28 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-  <title>Busmall</title>
-  <link href="css/style.css" rel="stylesheet" type="text/css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.js"></script>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css?family=Shrikhand" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+  <title>BusMall</title>
 </head>
-
 <body>
   <header>
-    <h1>Vote for your favorite product</h1>
-    <nav>
-      <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Adopt aproduct</a></li>
-        <p>In this test you will chose your favorite out of 3 products that show up as images. You will be allowed 25 clicks per clicks per round. Refresh the page to start a new round (your prior round will save).</p>
-      </ul>
-    </nav>
+    <h1>Bus Mall</h1>
   </header>
-  <div id='app' class="app"></div>
-  <div id='form'></div>
-  <section>
-    <img id="leftphoto" src="/img/babyswing.jpg" alt="babyswing" title="choiceone" />
-    <img id="rightphoto" src="/img/glasswiper.jpg" alt="glasswiper" title="choicetwo" />
-    <img id="rightphoto" src="/img/facewash.jpg" alt="facewash" title="choicethree" />
-
-  </section>
-  <script src="js/app.js"></script>
+  <main>
+    <h2>CLICK ON YOUR FAVORITE IMAGE</h2>
+  </main>
   
+  <ul id = "finalresults"></ul>
+<section id="productarea">
+  <img id="leftimage" src="" alt="">
+  <img id="centerimage" src="" alt="">
+  <img id="rightimage" src="" alt="">
+</section>
+<script src="js/app.js"></script>
+<canvas id="chart" height="300px" width="400px"></canvas>
+<div id='button'></div>
 </body>
-
 </html>
